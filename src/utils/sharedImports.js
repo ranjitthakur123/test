@@ -7,16 +7,15 @@ export { scrollToTop } from '@/utils/scrollUtils';
 export { getImagePath } from '@/utils/imageUtils';
 export { initializeAllScripts, initializeSliders, reinitializeSliders } from '@/utils/initScripts';
 export { initializeAllAnimations, initializeWow } from '@/utils/initializeAnimations';
+export { getSEOData } from '@/data/seoData';
 
-// Common React patterns
-export const createSection = (className, children) => (
-  <section className={className}>
-    {children}
-  </section>
-);
+// Common utility functions
+export const createSection = (className, children) => {
+  return React.createElement('section', { className }, children);
+};
 
-export const createContainer = (children, fluid = false) => (
-  <div className={fluid ? 'container-fluid' : 'container'}>
-    {children}
-  </div>
-);
+export const createContainer = (children, fluid = false) => {
+  return React.createElement('div', { 
+    className: fluid ? 'container-fluid' : 'container' 
+  }, children);
+};

@@ -316,182 +316,7 @@ const TextTotext = ({ fromResources }) => {
         }
     };
 
-    const SEO = ({ title, description, keywords }) => {
-        useEffect(() => {
-            // Update document title
-            if (title) {
-                document.title = title;
-            }
-
-            // Function to update or create meta tag
-            const updateMetaTag = (name, content, attribute = 'name') => {
-                if (!content) return;
-
-                let element = document.querySelector(`meta[${attribute}="${name}"]`);
-
-                if (element) {
-                    element.setAttribute('content', content);
-                } else {
-                    element = document.createElement('meta');
-                    element.setAttribute(attribute, name);
-                    element.setAttribute('content', content);
-                    document.head.appendChild(element);
-                }
-            };
-
-            // Update meta tags
-            updateMetaTag('description', description);
-            updateMetaTag('keywords', keywords);
-
-            // Cleanup function
-            return () => {
-                // Reset title to default
-                document.title = 'Devnagri - AI Translation & Localization';
-
-                // Remove dynamically added meta tags
-                const removeMetaTag = (name, attribute = 'name') => {
-                    const element = document.querySelector(`meta[${attribute}="${name}"]`);
-                    if (element && element.parentNode === document.head) {
-                        document.head.removeChild(element);
-                    }
-                };
-
-                removeMetaTag('description');
-                removeMetaTag('keywords');
-            };
-        }, [title, description, keywords]);
-
-        return null;
-    };
-
-    const helmetMetaMap = {
-        translation: {
-            hindi: {
-                title: 'English To Hindi Translation - Devnagri',
-                description: 'इंग्लिश टू हिंदी ट्रांसलेशन - Online English to Hindi Translation Tool - Best Hindi Website for Translate Anything From English To Hindi.',
-                keywords: 'English to Hindi Translation'
-            },
-            punjabi: {
-                title: 'English To Punjabi Translation - Devnagri',
-                description: 'ਇੰਗਲਿਸ਼ ਟੂ ਪੰਜਾਬੀ ਟਰਾਂਸਲੇਸ਼ਨ -Online English to Punjabi Translation Tool - Best Punjabi Website for Translate Anything From English To Punjabi.',
-                keywords: 'English to Punjabi Translation'
-            },
-            tamil: {
-                title: 'English to Tamil Translation - Devnagri',
-                description: 'இங்கிலீஷ் டூ தமிழ் டிரான்ஸ்லேஷன் -Online English to Tamil Translation Tool - Best Tamil Website for Translate Anything From English To Tamil.',
-                keywords: 'English to Tamil Translation'
-            },
-            telugu: {
-                title: 'English to Telugu Translation - Devnagri',
-                description: 'ఇంగ్లీష్ టు తెలుగు ట్రాన్సలేషన్ -Online English to Telugu Translation Tool-Best Telugu Website for Translate Anything From English To Telugu.',
-                keywords: 'English to Telugu Translation'
-            },
-            kannada: {
-                title: 'English to Kannada Translation - Devnagri',
-                description: 'ಇಂಗ್ಲೀಷ್ ಟು ಕನ್ನಡ - Online English to Kannada Translation Tool - Best Kannada Website for Translate Anything From English To Kannada.',
-                keywords: 'English to Kannada Translation'
-            },
-            bengali: {
-                title: 'English to Bengali Translation - Devnagri',
-                description: 'ইংলিশ টু বেঙ্গলি ট্রান্সলেশন - Online English to Bengali Translation Tool - Best Bengali Website for Translate Anything From English To Bengali.',
-                keywords: 'English to Bengali Translation'
-            },
-            gujarati: {
-                title: 'English to Gujarati Translation - Devnagri',
-                description: 'ઈંગ્લીશ ટુ ગુજરાતી ટ્રાન્સલેસન Online English to Gujarati Translation Tool-Best Gujarati Website for Translate Anything From English To Gujarati.',
-                keywords: 'English to Gujarati Translation'
-            },
-            marathi: {
-                title: 'English to Marathi Translation - Devnagri',
-                description: 'इंग्लिश टू मराठी ट्रान्सलेशन -Online English to Marathi Translation Tool-Best Marathi Website for Translate Anything From English To Marathi.',
-                keywords: 'English to Marathi Translation'
-            },
-            malayalam: {
-                title: 'English to Malayalam Translation - Devnagri',
-                description: 'ഇംഗ്ലീഷ് ടു മലയാളം ട്രാൻസ്‌ലേഷൻ -Online English to Malayalam Translation Tool-Best Malayalam Website for Translate Anything From English To Malayalam',
-                keywords: 'English to Malayalam Translation'
-            },
-            assamese: {
-                title: 'English to Assamese Translation - Devnagri',
-                description: 'ইংলিছ টু আচামীজ ট্ৰাঞ্চলেশ্যন -Online English to Assamese Translation Tool-Best Assamese Website for Translate Anything From English To Assamese.',
-                keywords: 'English to Assamese Translation'
-            },
-            odia: {
-                title: 'English to Odia Translation - Devnagri',
-                description: 'ଇଂଲିଶ ଟୁ ଓଡ଼ିଆ ଟ୍ରାନ୍ସଲେସନ - Online English to Odia Translation Tool - Best Odia Website for Translate Anything From English To Odia.',
-                keywords: 'English to Odia Translation'
-            }
-        },
-
-        transliteration: {
-            hindi: {
-                title: 'English to Hindi Transliteration - Devnagri',
-                description: 'इंग्लिश टू हिंदी ट्रांसलिट्रेशन - Online English to Hindi Transliteration Tool - Best Hindi Transliteration all types of content transliteration from English to Hindi.',
-                keywords: 'English to Hindi Transliteration'
-            },
-            punjabi: {
-                title: 'English to Punjabi Transliteration - Devnagri',
-                description: 'ਇੰਗਲਿਸ਼ ਟੂ ਪੰਜਾਬੀ ਟਰਾਂਸਲਿਟ੍ਰੇਸ਼ਨ - Online English to Punjabi Transliteration Tool - Best Punjabi Transliteration all types of content transliteration from English to Punjabi.',
-                keywords: 'English to Punjabi Transliteration'
-            },
-            tamil: {
-                title: 'English to Tamil Transliteration - Devnagri',
-                description: 'இங்கிலிஷ் டோ தமிழ் டிரான்ஸ்லிட்ரேஷன் - Online English to Tamil Transliteration Tool - Best Tamil Transliteration all types of content transliteration from English to Tamil.',
-                keywords: 'English to Tamil Transliteration'
-            },
-            telugu: {
-                title: 'English to Telugu Transliteration - Devnagri',
-                description: 'ఇంగ్లీష్ టు తెలుగు ట్రాన్స్లిట్రేషన్ - Online English to Telugu Transliteration Tool - Best Telugu Transliteration all types of content transliteration from English to Telugu.',
-                keywords: 'English to Telugu Transliteration'
-            },
-            kannada: {
-                title: 'English to Kannada Transliteration - Devnagri',
-                description: 'ಇಂಗ್ಲಿಷ್ ಟು ಕನ್ನಡ ಟ್ರಾನ್ಸ್ ಲಿಟರೇಷನ್ - Online English to Kannada Transliteration Tool - Best Kannada Transliteration all types of content transliteration from English to Kannada.',
-                keywords: 'English to Kannada Transliteration'
-            },
-            bengali: {
-                title: 'English to Bengali Transliteration - Devnagri',
-                description: 'ইংলিশ টু বেঙ্গলি ট্রান্সলিটারেশন - Online English to Bengali Transliteration Tool - Best Bengali Transliteration all types of content transliteration from English to Bengali.',
-                keywords: 'English to Bengali Transliteration'
-            },
-            gujarati: {
-                title: 'English to Gujarati Transliteration - Devnagri',
-                description: 'ઇંગ્લિશ ટુ ગુજરાતી ટ્રાન્સલિટરેશન - Online English to Gujarati Transliteration Tool - Best Gujarati Transliteration all types of content transliteration from English to Gujarati.',
-                keywords: 'English to Gujarati Transliteration'
-            },
-            marathi: {
-                title: 'English to Marathi Transliteration - Devnagri',
-                description: 'इंग्लिश टु मराठी ट्रांसलिट्रेशन - Online English to Marathi Transliteration Tool - Best Marathi Transliteration all types of content transliteration from English to Marathi.',
-                keywords: 'English to Marathi Transliteration'
-            },
-            malayalam: {
-                title: 'English to Malayalam Transliteration - Devnagri',
-                description: 'ഇംഗ്ലീഷ് ടൂ മലയാളം ട്രാൻസ്ലിറ് ററേഷൻ - Online English to Malayalam Transliteration Tool - Best Malayalam Transliteration all types of content transliteration from English to Malayalam.',
-                keywords: 'English to Malayalam Transliteration'
-            }
-        }
-    };
-
-
-    const languageImageMap = {
-        hindi: "products-images/Hindi-8.png",
-        marathi: "products-images/Marathi-8.png",
-        tamil: "products-images/Tamil-8.png",
-        telugu: "products-images/Telugu -8.png",
-        kannada: "products-images/Kannada-8.png",
-        malayalam: "products-images/Malayalam -8.png",
-        punjabi: "products-images/Punjabi-8.png",
-        gujarati: "products-images/Gujarati -8.png",
-        bengali: "products-images/Bengali-8.png",
-        odia: "products-images/Odia-8.png",
-        assamese: "products-images/Assamese-8.png",
-        urdu: "products-images/Urdu-8.png"
-    };
-
-
-
-
-    // Rest of the component JSX remains the same, but we'll add loading and error states
+    // Translation component implementation here
     return (
         <>
             <head>
@@ -530,12 +355,12 @@ const TextTotext = ({ fromResources }) => {
                                 <div className="d-flex align-items-center justify-content-start gap-3 wow fadeIn">
                                     {/* <Link to="#" className="white">
                                     <button type="btn" className="devnagri-btn mt-3">
-                                    <img
-                                        src="assets/images/video-play-btn.png"
-                                        className="pe-1"
-                                        style={{ filter: "brightness(0) invert(1)" }}
-                                    />{" "}
-                                    Book a Demo
+                                        <img
+                                            src="assets/images/video-play-btn.png"
+                                            className="pe-1"
+                                            style={{ filter: "brightness(0) invert(1)" }}
+                                        />{" "}
+                                        Book a Demo
                                     </button>
                                 </Link> */}
                                     <Link to="#translation-box" className="blue" onClick={scrollToTranslationBox}>
