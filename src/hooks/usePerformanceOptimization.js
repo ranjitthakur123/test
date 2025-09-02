@@ -74,3 +74,40 @@ export const usePerformanceOptimization = () => {
     animationsEnabled
   };
 };
+import { useCallback, useRef, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+export const usePerformanceOptimization = () => {
+  const performanceEnabled = useSelector(state => state.ui.performance?.enabled ?? true);
+  const dispatch = useDispatch();
+  const metricsRef = useRef({});
+
+  const measurePerformance = useCallback((label, fn) => {
+    if (!performanceEnabled) return fn();
+    
+    const start = performance.now();
+    const result = fn();
+    const end = performance.now();
+    
+    metricsRef.current[label] = end - start;
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Performance [${label}]: ${(end - start).toFixed(2)}ms`);
+    }
+    
+    return result;
+  }, [performanceEnabled]);
+
+  const getMetrics = useCallback(() => metricsRef.current, []);
+
+  const memoizedCallback = useCallback((fn, deps) => {
+    return useMemo(() => fn, deps);
+  }, []);
+
+  return {
+    measurePerformance,
+    getMetrics,
+    memoizedCallback,
+    performanceEnabled
+  };
+};

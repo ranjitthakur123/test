@@ -1,4 +1,3 @@
-
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 // Page Data Slice
@@ -72,7 +71,7 @@ const uiSlice = createSlice({
       state.theme = action.payload;
     },
     setAnimationsInitialized: (state, action) => {
-      state.animations.initialized = action.payload;
+      state.ui.animations.initialized = action.payload;
     },
     addLoadedScript: (state, action) => {
       state.scripts.loaded.push(action.payload);
@@ -84,6 +83,18 @@ const uiSlice = createSlice({
     addFailedScript: (state, action) => {
       state.scripts.failed.push(action.payload);
       state.scripts.loading = state.scripts.loading.filter(s => s !== action.payload);
+    },
+    setAnimationsEnabled: (state, action) => {
+      state.ui.animations.enabled = action.payload;
+    },
+    setPerformanceEnabled: (state, action) => {
+      state.ui.performance.enabled = action.payload;
+    },
+    updatePerformanceMetrics: (state, action) => {
+      state.ui.performance.metrics = { ...state.ui.performance.metrics, ...action.payload };
+    },
+    setThemeMode: (state, action) => {
+      state.ui.theme.mode = action.payload;
     }
   }
 });
@@ -96,7 +107,11 @@ export const {
   setAnimationsInitialized, 
   addLoadedScript, 
   addLoadingScript, 
-  addFailedScript 
+  addFailedScript,
+  setAnimationsEnabled,
+  setPerformanceEnabled,
+  updatePerformanceMetrics,
+  setThemeMode
 } = uiSlice.actions;
 
 export const store = configureStore({

@@ -360,6 +360,7 @@ function App() {
                 </LazyPageWrapper>
               } />
             </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

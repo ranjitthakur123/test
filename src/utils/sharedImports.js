@@ -1,4 +1,3 @@
-
 // Consolidated shared imports and utilities with Redux
 export { default as React, useEffect, useState, useRef, useCallback, useMemo, memo, Suspense, lazy } from 'react';
 export { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -29,63 +28,23 @@ export {
   setAnimationsInitialized
 } from '@/store/store';
 
-// Advanced React utilities
+// HOC utilities
 export const withErrorBoundary = (Component, fallback) => {
-  return React.forwardRef((props, ref) => (
+  const WrappedComponent = (props) => (
     <ErrorBoundary fallback={fallback}>
-      <Component {...props} ref={ref} />
+      <Component {...props} />
     </ErrorBoundary>
-  ));
-};
-
-export const withSuspense = (Component, fallback = <div>Loading...</div>) => {
-  return React.forwardRef((props, ref) => (
-    <Suspense fallback={fallback}>
-      <Component {...props} ref={ref} />
-    </Suspense>
-  ));
-};
-
-export const withMemo = (Component, areEqual) => {
-  return React.memo(Component, areEqual);
-};
-
-// Common utility functions enhanced
-export const createSection = (className, children, key) => {
-  return React.createElement('section', { className, key }, children);
-};
-
-export const createContainer = (children, fluid = false, className = '') => {
-  return React.createElement('div', { 
-    className: `${fluid ? 'container-fluid' : 'container'} ${className}`.trim()
-  }, children);
-};
-
-// Performance optimized image component
-export const OptimizedImage = memo(({ src, alt, className = '', onError, ...props }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
-
-  const handleLoad = useCallback(() => {
-    setImageLoaded(true);
-  }, []);
-
-  const handleError = useCallback((e) => {
-    setImageError(true);
-    if (onError) onError(e);
-  }, [onError]);
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      className={`${className} ${imageLoaded ? 'loaded' : 'loading'} ${imageError ? 'error' : ''}`}
-      onLoad={handleLoad}
-      onError={handleError}
-      loading="lazy"
-      {...props}
-    />
   );
-});
+  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
+  return WrappedComponent;
+};
 
-OptimizedImage.displayName = 'OptimizedImage';
+export const withSuspense = (Component, fallback) => {
+  const WrappedComponent = (props) => (
+    <Suspense fallback={fallback}>
+      <Component {...props} />
+    </Suspense>
+  );
+  WrappedComponent.displayName = `withSuspense(${Component.displayName || Component.name})`;
+  return WrappedComponent;
+};
