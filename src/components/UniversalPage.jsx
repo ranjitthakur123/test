@@ -31,7 +31,7 @@ const UniversalPage = ({
                   {pageData.hero.title}
                 </h1>
                 <p className="f-400 pb-2 pe-3 wow fadeIn">
-                  {pageData.hero.description}
+                  {pageData.hero.subtitle || pageData.hero.description}
                 </p>
                 <div className="d-flex flex-wrap align-items-center justify-content-start gap-3 wow fadeIn">
                   <Link to="/book-a-demo" className="white">

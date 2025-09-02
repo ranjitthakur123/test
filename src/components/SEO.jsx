@@ -27,6 +27,16 @@ const SEO = ({ title, description, keywords = 'website' }) => {
     updateMetaTag('description', description);
     updateMetaTag('keywords', keywords);
     
+    // Open Graph meta tags
+    updateMetaTag('og:title', title, 'property');
+    updateMetaTag('og:description', description, 'property');
+    updateMetaTag('og:type', 'website', 'property');
+    
+    // Twitter meta tags
+    updateMetaTag('twitter:card', 'summary_large_image', 'name');
+    updateMetaTag('twitter:title', title, 'name');
+    updateMetaTag('twitter:description', description, 'name');
+    
 
     // Cleanup function to remove dynamic meta tags when component unmounts
     return () => {
