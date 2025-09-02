@@ -1,0 +1,150 @@
+
+/* Skeleton loading styles */
+.page-skeleton {
+  animate: pulse 1.5s ease-in-out infinite alternate;
+}
+
+.skeleton-hero {
+  background: #f8f9fa;
+  padding: 60px 0;
+}
+
+.skeleton-line {
+  height: 20px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.skeleton-title {
+  height: 40px;
+  width: 70%;
+}
+
+.skeleton-subtitle {
+  height: 20px;
+  width: 90%;
+}
+
+.skeleton-button {
+  height: 45px;
+  width: 150px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 25px;
+  margin-top: 20px;
+}
+
+.skeleton-image {
+  height: 300px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-content {
+  padding: 60px 0;
+}
+
+.skeleton-section {
+  height: 200px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.short {
+  width: 60%;
+}
+
+/* Loading states */
+.page-loading,
+.content-loading,
+.loading-hero,
+.loading-features,
+.loading-content,
+.loading-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error states */
+.page-error,
+.content-error,
+.error-fallback,
+.error-boundary {
+  text-align: center;
+  padding: 40px 20px;
+  color: #dc3545;
+}
+
+/* Animation states */
+.animations-enabled {
+  transition: all 0.3s ease;
+}
+
+.animations-loading {
+  opacity: 0.8;
+}
+
+.animations-ready {
+  opacity: 1;
+}
+
+/* Performance optimizations */
+.page-wrapper {
+  contain: layout style paint;
+  will-change: auto;
+}
+
+.feature-card {
+  contain: layout style;
+  transform: translateZ(0);
+}
+
+img.loading {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+img.loaded {
+  opacity: 1;
+}
+
+img.error {
+  opacity: 0.3;
+  filter: grayscale(100%);
+}

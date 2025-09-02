@@ -1,51 +1,95 @@
-import { useEffect } from 'react';
 
-const SEO = ({ title, description, keywords = 'website' }) => {
-  useEffect(() => {
-    // Update document title
-    if (title) {
-      document.title = title;
+import React, { memo, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { setSEOData } from '../store/store';
+import { getSEOData } from '@/data/seoData';
+
+const SEO = memo(({ pageKey, customSEO = null }) => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const currentSEO = useSelector(state => state.seo.currentPage);
+
+  const seoData = useMemo(() => {
+    const staticSEO = getSEOData(pageKey);
+    const finalSEO = customSEO ? { ...staticSEO, ...customSEO } : staticSEO;
+    
+    // Update Redux store
+    dispatch(setSEOData(finalSEO));
+    
+    return finalSEO;
+  }, [pageKey, customSEO, dispatch]);
+
+  const structuredData = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": seoData.title,
+    "description": seoData.description,
+    "url": `https://website.devnagri.dev${location.pathname}`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Devnagri",
+      "url": "https://website.devnagri.dev"
     }
+  }), [seoData, location.pathname]);
 
-    // Function to update or create meta tag
-    const updateMetaTag = (name, content, attribute = 'name') => {
-      if (!content) return;
-      
-      let element = document.querySelector(`meta[${attribute}="${name}"]`);
-      
-      if (element) {
-        element.setAttribute('content', content);
-      } else {
-        element = document.createElement('meta');
-        element.setAttribute(attribute, name);
-        element.setAttribute('content', content);
-        document.head.appendChild(element);
-      }
-    };
+  React.useEffect(() => {
+    // Update document title
+    document.title = seoData.title;
 
     // Update meta tags
-    updateMetaTag('description', description);
-    updateMetaTag('keywords', keywords);
-    
-    // Open Graph meta tags
-    updateMetaTag('og:title', title, 'property');
-    updateMetaTag('og:description', description, 'property');
-    updateMetaTag('og:type', 'website', 'property');
-    
-    // Twitter meta tags
-    updateMetaTag('twitter:card', 'summary_large_image', 'name');
-    updateMetaTag('twitter:title', title, 'name');
-    updateMetaTag('twitter:description', description, 'name');
-    
+    const metaTags = [
+      { name: 'description', content: seoData.description },
+      { name: 'keywords', content: seoData.keywords?.join(', ') || '' },
+      { property: 'og:title', content: seoData.openGraph?.title || seoData.title },
+      { property: 'og:description', content: seoData.openGraph?.description || seoData.description },
+      { property: 'og:url', content: `https://website.devnagri.dev${location.pathname}` },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: seoData.title },
+      { name: 'twitter:description', content: seoData.description }
+    ];
 
-    // Cleanup function to remove dynamic meta tags when component unmounts
-    return () => {
-      // Note: We don't remove meta tags on cleanup as they should persist
-      // until the next page sets new ones
-    };
-  }, [title, description, keywords]);
+    metaTags.forEach(({ name, property, content }) => {
+      if (!content) return;
+      
+      const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+      let meta = document.querySelector(selector);
+      
+      if (!meta) {
+        meta = document.createElement('meta');
+        if (name) meta.name = name;
+        if (property) meta.property = property;
+        document.head.appendChild(meta);
+      }
+      
+      meta.content = content;
+    });
 
-  return null; // This component doesn't render anything
-};
+    // Update canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = `https://website.devnagri.dev${location.pathname}`;
+
+    // Update structured data
+    let structuredScript = document.querySelector('#structured-data');
+    if (!structuredScript) {
+      structuredScript = document.createElement('script');
+      structuredScript.id = 'structured-data';
+      structuredScript.type = 'application/ld+json';
+      document.head.appendChild(structuredScript);
+    }
+    structuredScript.textContent = JSON.stringify(structuredData);
+
+  }, [seoData, location.pathname, structuredData]);
+
+  return null;
+});
+
+SEO.displayName = 'SEO';
 
 export default SEO;
