@@ -38,21 +38,18 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundPolicy from './pages/RefundPolicy';
 
 import { initializeWow } from './utils/initializeAnimations';
-import { initializeCounters, initializeFAQs, initializeSliders } from './utils/homeUtils';
+import { initializeCounters, initializeFAQs } from './utils/homeUtils';
 import { ScrollToTop } from './components/common/ScrollToTop';
-import { initializeSliders as initializePageSliders } from './utils/initScripts';
 import { updateBackgroundImages } from './utils/cssUtils';
 import NotFound from './pages/NotFound';
 
 
 function App() {
   useEffect(() => {
-    // Initialize features once when app mounts
+    // Initialize global features once when app mounts
     initializeWow();
-    initializeSliders();
     initializeFAQs();
     updateBackgroundImages();
-    initializePageSliders();
   }, []);
 
     

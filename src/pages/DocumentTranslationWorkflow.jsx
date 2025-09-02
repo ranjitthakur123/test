@@ -1,10 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import fullDataset from '../data/howWeHelpData.json';
-import { Link, useNavigate } from 'react-router-dom';
-import { getImagePath } from '../utils/imageUtils';
-import FAQAccordion from '@/components/FAQAccordion';
-import { initializeSliders } from '@/utils/initializeAnimations';
-import { initializeSliders1 } from '@/utils/initScripts';
+import React, { useRef } from 'react';
+import { fullDataset, Link, useNavigate, getImagePath, FAQAccordion, usePageInitialization } from '@/utils/sharedImports';
  
 
 const DocumentTranslationWorkflow = () => {

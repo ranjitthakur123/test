@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react'
-import fullDataset from '../data/howWeHelpData.json';
-import { Link, useNavigate } from 'react-router-dom';
-import { getImagePath } from '@/utils/imageUtils';
-import { initializeSliders } from '@/utils/initializeAnimations';
-import { initializeSliders1 } from '@/utils/initScripts';
+import React from 'react';
+import { fullDataset, Link, useNavigate, getImagePath, usePageInitialization } from '@/utils/sharedImports';
  
 
 const D2C = () => {
