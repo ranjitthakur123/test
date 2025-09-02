@@ -1,3 +1,4 @@
+
 import WOW from 'wow.js';
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
@@ -17,13 +18,13 @@ export const initializeWow = () => {
   }
 };
 
-// Initialize all sliders
-export const initializeSliders = () => {
+// Initialize Swiper sliders
+export const initializeSwiperSliders = () => {
   if (typeof window === 'undefined') return;
 
-  // Hero section slider
+  // Campaign/Hero slider
   const campaignSwiperElement = document.querySelector('.campaignSwiper');
-  if (campaignSwiperElement) {
+  if (campaignSwiperElement && !campaignSwiperElement.swiper) {
     new Swiper(campaignSwiperElement, {
       modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 1,
@@ -46,33 +47,49 @@ export const initializeSliders = () => {
 
   // How we help slider
   const howWeHelpSwiper = document.querySelector('#howwe-help-swiper');
-  if (howWeHelpSwiper) {
-    new Swiper(howWeHelpSwiper, {
+  if (howWeHelpSwiper && !howWeHelpSwiper.swiper) {
+    const swiper = new Swiper(howWeHelpSwiper, {
       modules: [Navigation],
-      slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      grabCursor: true,
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.slider-button-next',
+        prevEl: '.slider-button-prev',
       },
       breakpoints: {
-        640: {
-          slidesPerView: 2,
-        },
-        768: {
-          slidesPerView: 3,
-        },
-        1024: {
-          slidesPerView: 4,
-        },
+        0: { slidesPerView: 1.2 },
+        576: { slidesPerView: 2.2 },
+        992: { slidesPerView: 3 },
+        1200: { slidesPerView: 3 },
+        1281: { slidesPerView: 4 }
       },
+      on: {
+        init: function () {
+          updateNavigationState(this);
+        },
+        slideChange: function () {
+          updateNavigationState(this);
+        }
+      }
     });
+
+    function updateNavigationState(swiper) {
+      const prevButton = document.querySelector('.slider-button-prev');
+      const nextButton = document.querySelector('.slider-button-next');
+
+      if (prevButton) {
+        prevButton.disabled = swiper.isBeginning;
+      }
+      if (nextButton) {
+        nextButton.disabled = swiper.isEnd;
+      }
+    }
   }
 
   // Industries slider
   const industrySwiperElement = document.querySelector('.industrySwiper');
-  if (industrySwiperElement) {
+  if (industrySwiperElement && !industrySwiperElement.swiper) {
     new Swiper(industrySwiperElement, {
       modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 1,
@@ -105,14 +122,14 @@ export const initializeSliders = () => {
   }
 };
 
-// Initialize counters initializeCounters
-export const initializeCounters = () => {
+// Initialize CountUp.js counters
+export const initializeCountUpCounters = () => {
   if (typeof window === 'undefined') return;
 
-  const counterElements = document.querySelectorAll('.counter');
+  const counterElements = document.querySelectorAll('.counter[data-countup="true"]');
   
   counterElements.forEach(counter => {
-    if (!counter) return;
+    if (!counter || counter.hasAttribute('data-initialized')) return;
 
     try {
       const value = parseInt(counter.getAttribute('data-target'), 10);
@@ -120,13 +137,10 @@ export const initializeCounters = () => {
 
       const suffix = counter.getAttribute('data-suffix') || '';
       
-      // Custom formatting function
       const formattingFn = (num) => {
         if (suffix === 'M+') {
-          // For millions, just show the number + M+
           return `${num}M+`;
         } else {
-          // For other numbers, show the number with + suffix
           return `${num.toLocaleString('en-US')}${suffix}`;
         }
       };
@@ -134,7 +148,7 @@ export const initializeCounters = () => {
       const countUp = new CountUpJs(counter, value, {
         duration: 2.5,
         separator: ',',
-        suffix: '', // We handle suffix in our formattingFn
+        suffix: '',
         enableScrollSpy: true,
         scrollSpyOnce: true,
         formattingFn: formattingFn
@@ -142,6 +156,7 @@ export const initializeCounters = () => {
       
       if (!countUp.error) {
         countUp.start();
+        counter.setAttribute('data-initialized', 'true');
       } else {
         console.error('CountUp error:', countUp.error);
       }
@@ -151,7 +166,6 @@ export const initializeCounters = () => {
   });
 };
 
-
 // Initialize FAQs
 export const initializeFAQs = () => {
   if (typeof window === 'undefined') return;
@@ -159,7 +173,7 @@ export const initializeFAQs = () => {
   const accordionButtons = document.querySelectorAll('.accordion-button');
   
   accordionButtons.forEach(button => {
-    if (!button) return;
+    if (!button || button.hasAttribute('data-initialized')) return;
 
     const handleClick = () => {
       try {
@@ -196,8 +210,18 @@ export const initializeFAQs = () => {
     };
 
     button.addEventListener('click', handleClick);
-    
-    // Store the handler for cleanup
-    button._handleClick = handleClick;
+    button.setAttribute('data-initialized', 'true');
   });
+};
+
+// Master animation initialization
+export const initializeAllAnimations = () => {
+  try {
+    initializeWow();
+    initializeSwiperSliders();
+    initializeCountUpCounters();
+    initializeFAQs();
+  } catch (error) {
+    console.error('Error initializing animations:', error);
+  }
 };

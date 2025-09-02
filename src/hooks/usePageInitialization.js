@@ -1,11 +1,16 @@
 
 import { useEffect } from 'react';
-import { initializeSliders } from '@/utils/initializeAnimations';
-import { initializeSliders1 } from '@/utils/initScripts';
+import { initializeAllAnimations } from '@/utils/initializeAnimations';
+import { initializeAllScripts } from '@/utils/initScripts';
 
 export const usePageInitialization = () => {
   useEffect(() => {
-    initializeSliders();
-    initializeSliders1();
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      initializeAllAnimations();
+      initializeAllScripts();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 };

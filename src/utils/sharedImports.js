@@ -1,14 +1,22 @@
 
-// Common imports used across pages
-export { default as fullDataset } from '../data/howWeHelpData.json';
-export { Link, useNavigate } from 'react-router-dom';
-export { getImagePath } from '@/utils/imageUtils';
-export { default as FAQAccordion } from '@/components/FAQAccordion';
+// Consolidated shared imports and utilities
+export { default as React, useEffect, useState, useRef, useCallback, useMemo } from 'react';
+export { default as SEO } from '@/components/SEO';
 export { usePageInitialization } from '@/hooks/usePageInitialization';
-export { default as PageTemplate } from '@/components/PageTemplate';
+export { scrollToTop } from '@/utils/scrollUtils';
+export { getImagePath } from '@/utils/imageUtils';
+export { initializeAllScripts, initializeSliders, reinitializeSliders } from '@/utils/initScripts';
+export { initializeAllAnimations, initializeWow } from '@/utils/initializeAnimations';
 
-// Shared components
-export { default as HeroSection } from '@/components/shared/HeroSection';
-export { default as BrandSection } from '@/components/shared/BrandSection';
-export { default as CTASection } from '@/components/shared/CTASection';
-export { default as ResourcesSection } from '@/components/shared/ResourcesSection';
+// Common React patterns
+export const createSection = (className, children) => (
+  <section className={className}>
+    {children}
+  </section>
+);
+
+export const createContainer = (children, fluid = false) => (
+  <div className={fluid ? 'container-fluid' : 'container'}>
+    {children}
+  </div>
+);
