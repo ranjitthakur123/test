@@ -1,87 +1,104 @@
 
-import React from 'react';
+import React, { memo, useState, useCallback, useMemo, Suspense } from 'react';
+import { useAdvancedPageData, useSelector, withErrorBoundary, withSuspense } from '@/utils/sharedImports';
 import UniversalPage from '@/components/UniversalPage';
-import { getPageData } from '@/data/pageData';
+import { usePerformanceOptimization } from '@/hooks/usePerformanceOptimization';
+import { useAsyncComponent } from '@/hooks/useAsyncComponent';
 
-const Contact = () => {
-  const pageData = getPageData('contact');
+const ContactForm = memo(() => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
+
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    // Form submission logic here
+    console.log('Form submitted:', formData);
+  }, [formData]);
 
   return (
-    <UniversalPage 
-      pageKey="contact"
-      showHero={true}
-      showFeatures={false}
-      showCTA={false}
-    >
-      {/* Contact Form */}
-      <section className="py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8 mx-auto">
-              <div className="contact-form-wrapper p-5">
-                <h3 className="f-28 f-600 black mb-4 text-center">Get in Touch</h3>
-                <form>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Your Name" 
-                        required 
-                      />
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <input 
-                        type="email" 
-                        className="form-control" 
-                        placeholder="Your Email" 
-                        required 
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="Subject" 
-                      required 
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <textarea 
-                      className="form-control" 
-                      rows="5" 
-                      placeholder="Your Message" 
-                      required
-                    ></textarea>
-                  </div>
-                  <div className="text-center">
-                    <button type="submit" className="devnagri-btn">Send Message</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          
-          {/* Contact Info */}
-          <div className="row mt-5">
-            <div className="col-lg-4 text-center mb-4">
-              <h4 className="f-20 f-600 black mb-3">Email</h4>
-              <p className="f-16 f-400 gray">{pageData.contactInfo?.email}</p>
-            </div>
-            <div className="col-lg-4 text-center mb-4">
-              <h4 className="f-20 f-600 black mb-3">Phone</h4>
-              <p className="f-16 f-400 gray">{pageData.contactInfo?.phone}</p>
-            </div>
-            <div className="col-lg-4 text-center mb-4">
-              <h4 className="f-20 f-600 black mb-3">Address</h4>
-              <p className="f-16 f-400 gray">{pageData.contactInfo?.address}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </UniversalPage>
+    <div className="contact-form-section">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Your Name"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="Your Email"
+          required
+        />
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          placeholder="Your Message"
+          required
+        />
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
   );
-};
+});
+
+const ContactContent = memo(() => {
+  const { data, loading, error } = useAdvancedPageData('contact');
+  const { measurePerformance } = usePerformanceOptimization();
+  const animationsEnabled = useSelector(state => state.ui.animations.enabled);
+
+  const memoizedContent = useMemo(() => {
+    if (loading) return <div className="page-loading">Loading contact page...</div>;
+    if (error) return <div className="page-error">Error loading page: {error}</div>;
+
+    return (
+      <UniversalPage 
+        pageKey="contact"
+        showHero={true}
+        showFeatures={false}
+        showCTA={false}
+        className={animationsEnabled ? 'animations-enabled' : ''}
+      >
+        <Suspense fallback={<div className="loading-form">Loading contact form...</div>}>
+          <ContactForm />
+        </Suspense>
+      </UniversalPage>
+    );
+  }, [data, loading, error, animationsEnabled]);
+
+  return measurePerformance('Contact page render', () => memoizedContent);
+});
+
+ContactForm.displayName = 'ContactForm';
+ContactContent.displayName = 'ContactContent';
+
+const Contact = withErrorBoundary(
+  withSuspense(ContactContent, <div>Loading Contact page...</div>),
+  ({ error, resetError }) => (
+    <div className="error-fallback">
+      <div className="container text-center py-5">
+        <h2>Failed to load Contact page</h2>
+        <p>{error?.message}</p>
+        <button className="btn btn-primary" onClick={resetError}>Try Again</button>
+      </div>
+    </div>
+  )
+);
 
 export default Contact;
