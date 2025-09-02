@@ -47,115 +47,13 @@ import NotFound from './pages/NotFound';
 
 function App() {
   useEffect(() => {
-    // Initialize all features when component mounts
+    // Initialize features once when app mounts
     initializeWow();
-        initializeSliders();
-         
-        initializeFAQs();
-        initializeWow();
-    // Initialize background images
+    initializeSliders();
+    initializeFAQs();
     updateBackgroundImages();
-  }, []);
-  useEffect(() => {
-  let hasCounted = false;
-
-  const animateCounter = (counter) => {
-    const target = parseFloat(counter.getAttribute("data-target"));
-    const isDecimal = counter.getAttribute("data-decimal") === "true";
-    const suffix = counter.getAttribute("data-suffix") || '';
-    const duration = 2000;
-    const frameRate = 60;
-    const totalFrames = Math.round((duration / 1000) * frameRate);
-    let frame = 0;
-
-    const count = () => {
-      frame++;
-      let progress = frame / totalFrames;
-      let current = target * progress;
-
-      if (isDecimal) {
-        counter.innerText = current.toFixed(1) + suffix;
-      } else {
-        counter.innerText = Math.floor(current) + suffix;
-      }
-
-      if (frame < totalFrames) {
-        requestAnimationFrame(count);
-      } else {
-        counter.innerText = isDecimal ? target.toFixed(1) + suffix : target + suffix;
-      }
-    };
-
-    requestAnimationFrame(count);
-  };
-
-  const onScroll = () => {
-    if (hasCounted) return;
-
-    const counterSection = document.querySelector(".custom-stats-row");
-    if (!counterSection) return;
-
-    const rect = counterSection.getBoundingClientRect();
-    const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
-
-    if (isVisible) {
-      const counters = document.querySelectorAll(".custom-counter");
-      counters.forEach(counter => animateCounter(counter));
-      hasCounted = true;
-      window.removeEventListener("scroll", onScroll);
-    }
-  };
-
-  window.addEventListener("scroll", onScroll);
-  onScroll(); // Check immediately in case already visible
-
-  return () => {
-    window.removeEventListener("scroll", onScroll);
-  };
-}, []);
-
-  useEffect(() => {
-    // Initialize page sliders when app loads
     initializePageSliders();
   }, []);
-
-   useEffect(() => {
-      const initCarousel = () => {
-        const carouselElement = document.getElementById('carouselExampleAutoplaying');
-        if (carouselElement) {
-          // Initialize Bootstrap carousel
-          const carousel = new window.bootstrap.Carousel(carouselElement, {
-            interval: 2000,
-            wrap: true,
-            ride: 'carousel'
-          });
-        }
-      };
-  
-      // Check if Bootstrap is available
-      if (typeof window !== 'undefined' && window.bootstrap) {
-        initCarousel();
-      }
-    }, []);
-
-    useEffect(() => {
-      const initCarousel = () => {
-        const carouselElement = document.getElementById('fadeCarousel');
-        if (carouselElement) {
-          // Initialize Bootstrap carousel
-          const carousel = new window.bootstrap.Carousel(carouselElement, {
-            interval: 2000,
-            wrap: true,
-            ride: 'carousel'
-          });
-        }
-      };
-  
-      // Check if Bootstrap is available
-      if (typeof window !== 'undefined' && window.bootstrap) {
-        initCarousel();
-      }
-    }, [])
 
     
 

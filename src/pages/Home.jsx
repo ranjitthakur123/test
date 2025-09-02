@@ -71,24 +71,7 @@ const Home = () => {
     handleVideoAutoplay();
   }, []);
 
-  useEffect(() => {
-    if (location.pathname.startsWith("/")) { // Adjust condition if needed
-      if (!sessionStorage.getItem("reloadedOnce")) {
-        sessionStorage.setItem("reloadedOnce", "true");
-        window.location.reload();
-      }
-    }
-  }, [location.pathname]);
-
-  (function () {
-    if (window.localStorage) {
-      if (!localStorage.getItem('alreadyReloaded')) {
-        localStorage.setItem('alreadyReloaded', 'true');
-        window.location.reload();
-      }
-    }
-  })();
-
+  // Consolidated initialization effect
   useEffect(() => {
     // Initialize all features when component mounts
     initializeWow();
@@ -96,16 +79,51 @@ const Home = () => {
     initializeSliders1();
     initializeCounters();
     initializeFAQs();
+    // Assuming updateBackgroundImages is a function defined elsewhere or needs to be imported
+    // If it's not defined, this line should be removed or handled appropriately.
+    // updateBackgroundImages(); // Commented out as it's not defined in the provided scope
+
+    // Initialize Bootstrap carousels
+    const initCarousels = () => {
+      if (typeof window !== 'undefined' && window.bootstrap) {
+        const carouselElement1 = document.getElementById('carouselExampleAutoplaying');
+        if (carouselElement1) {
+          new window.bootstrap.Carousel(carouselElement1, {
+            interval: 2000,
+            wrap: true,
+            ride: 'carousel'
+          });
+        }
+
+        const carouselElement2 = document.getElementById('fadeCarousel'); // This ID doesn't seem to be used in the provided JSX
+        if (carouselElement2) {
+          new window.bootstrap.Carousel(carouselElement2, {
+            interval: 2000,
+            wrap: true,
+            ride: 'carousel'
+          });
+        }
+      }
+    };
+
+    initCarousels();
 
     // Cleanup function
     return () => {
-      // Remove event listeners
       const accordionButtons = document.querySelectorAll('.accordion-button');
       accordionButtons.forEach(button => {
-        button.removeEventListener('click', () => { });
+        button.removeEventListener('click', () => {});
       });
     };
   }, []);
+
+  // One-time reload logic (simplified)
+  useEffect(() => {
+    if (location.pathname === "/" && !sessionStorage.getItem("homePageLoaded")) {
+      sessionStorage.setItem("homePageLoaded", "true");
+      window.location.reload();
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (swiperInstance) {
@@ -115,25 +133,6 @@ const Home = () => {
       });
     }
   }, [swiperInstance]);
-
-  useEffect(() => {
-    const initCarousel = () => {
-      const carouselElement = document.getElementById('carouselExampleAutoplaying');
-      if (carouselElement) {
-        // Initialize Bootstrap carousel
-        const carousel = new window.bootstrap.Carousel(carouselElement, {
-          interval: 2000,
-          wrap: true,
-          ride: 'carousel'
-        });
-      }
-    };
-
-    // Check if Bootstrap is available
-    if (typeof window !== 'undefined' && window.bootstrap) {
-      initCarousel();
-    }
-  }, []);
 
   const updateNavigationState = (swiper) => {
     setIsBeginning(swiper.isBeginning);
@@ -2659,268 +2658,6 @@ const Home = () => {
           <h2 className="text-center pb-4 f-40 f-600 black wow fadeInUp">
             Capability <span className="blue">Framework</span>
           </h2>
-          {/* <div className="how-wedo-workflow">
-            <div className="back-blue text-center">
-              <h4 className="f-400 white m-0 p-2 f-20">
-                AI-POWERED LOCALIZATION AT SCALE
-              </h4>
-            </div>
-            <div className="capability-section-box row justify-content-between align-items-center mt-4 mb-4 px-2 py-2 workflow-wedo-div">
-              <div className="col-lg-2 capability-section-header text-center d-flex justify-content-start gap-2 align-items-center mb-lg-0 mb-3">
-                <div>
-                  <img
-                    src={getImagePath('menu-icon/capabilties-icon.png')}
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <div>
-                  <p className="m-0 f-500 f-18">Capabilities</p>
-                </div>
-              </div>
-              <div className="col-lg-10">
-                <div className="row align-items-center">
-                  <div className="col-lg-4">
-                    <div className="capability-btn back-blue py-1 px-1 text-center d-flex justify-content-center gap-3 align-items-center">
-                      <div>
-                        <img
-                          src={getImagePath('menu-icon/Multilingual-Translation.png')}
-                          alt="icon"
-                          width={35}
-                          height={35}
-                          style={{ filter: "brightness(0) invert(1)" }}
-                        />
-                      </div>
-                      <div className="text-center">
-                        <p className="white f-400 m-0">
-                          Multilingual
-                          <br />
-                          Translation
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className="capability-btn back-blue py-1 px-1 text-center d-flex justify-content-center gap-3 align-items-center">
-                      <div>
-                        <img
-                          src={getImagePath('menu-icon/Multilingual-Communication.png')}
-                          alt="icon"
-                          width={35}
-                          height={35}
-                          style={{ filter: "brightness(0) invert(1)" }}
-                        />
-                      </div>
-                      <div className="text-center">
-                        <p className="white f-400 m-0">
-                          Multilingual
-                          <br />
-                          Communication
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div className="capability-btn back-blue py-1 px-1 text-center d-flex justify-content-center gap-3 align-items-center">
-                      <div>
-                        <img
-                          src={getImagePath('menu-icon/Workflow.png')}
-                          alt="icon"
-                          width={35}
-                          height={35}
-                          style={{ filter: "brightness(0) invert(1)" }}
-                        />
-                      </div>
-                      <div className="text-center">
-                        <p className="white f-400 m-0">
-                          Workflow
-                          <br />
-                          Solutions
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="offering-section-box row justify-content-between align-items-center mt-4 mb-4 px-2 py-2 workflow-wedo-div">
-              <div className="col-lg-2 offering-section-header text-center d-flex justify-content-start gap-2 align-items-center mb-lg-0 mb-3">
-                <div>
-                  <img
-                    src={getImagePath('menu-icon/offerings-icon.png')}
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <div>
-                  <p className="m-0 f-500 f-18"> Offerings</p>
-                </div>
-              </div>
-              <div className="col-lg-10">
-                <div className="offer-box p-1 mb-2 text-center">
-                  <p className="black f-400 m-0">
-                    Text to text, Text to Speech, Speech to Text Engine
-                  </p>
-                </div>
-                <div className="offer-box p-1 mb-2 text-center">
-                  <p className="black f-400 m-0">
-                    Omnichannel voice and chatbots, IVR automation, inbound and
-                    outbound processes
-                  </p>
-                </div>
-                <div className="offer-box p-1 mb-2 text-center">
-                  <p className="black f-400 m-0">
-                    OCR 360, presale and post-sale process, KYC and document
-                    verification
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="industries-section-box row justify-content-between align-items-center mt-4 mb-4 px-2 py-2 workflow-wedo-div">
-              <div className="col-lg-2 text-center industries-section-header d-flex justify-content-start gap-2 align-items-center mb-lg-0 mb-3">
-                <div>
-                  <img
-                    src={getImagePath('menu-icon/industry-icon.png')}
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <div>
-                  <p className="m-0 f-500 f-18">Industries</p>
-                </div>
-              </div>
-              <div className="col-lg-10">
-                <div className="row">
-                  <div className="col-lg-2">
-                    <div className="industry-btn p-1 text-center">
-                      <p className="black f-400 m-0 f-14">BFSI</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="industry-btn p-1 text-center">
-                      <p className="black f-400 m-0 f-14">
-                        Government &amp; Public Sector
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="industry-btn p-1 text-center">
-                      <p className="black f-400 m-0 f-14">eCommerce</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="industry-btn p-1 text-center">
-                      <p className="black f-400 m-0 f-14">D2C</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="industry-btn p-1 text-center">
-                      <p className="black f-400 m-0 f-14">Legal and Tech</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="devngri-section-box row justify-content-between align-items-center mt-4 mb-4 px-2 py-2 workflow-wedo-div">
-              <div className="devngri-section-header col-lg-3 text-center d-flex justify-content-start gap-2 align-items-center mb-lg-0 mb-3">
-                <div>
-                  <img
-                    src={getImagePath('menu-icon/devnagri-platform.png')}
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <div>
-                  <p className="m-0 f-500 f-18">Devnagri's Platform</p>
-                </div>
-              </div>
-              <div className="col-lg-9">
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="platform-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">
-                        Core Translation Engine (NLP &amp; ML)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="platform-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">LLM &amp; SLM Models</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="platform-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">
-                        <b>BRAIN</b>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="platform-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">Bot Builder</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="platform-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">Agents</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="infra-section-box row justify-content-between align-items-center mt-4 mb-4 px-2 py-2 workflow-wedo-div">
-              <div className="infra-section-header col-lg-3 text-center d-flex justify-content-start gap-2 align-items-center mb-lg-0 mb-3">
-                <div>
-                  <img
-                    src={getImagePath('menu-icon/infra-delivery.png')}
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <div>
-                  <p className="m-0 f-500 f-18">Infra &amp; Delivery</p>
-                </div>
-              </div>
-              <div className="col-lg-9">
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="infra-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">
-                        Enterprise-grade security
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="infra-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">
-                        On Prem &amp; Cloud Delivery
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="infra-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">Integrations CRM, CMS</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="infra-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">APIs &amp; Hooks</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-2">
-                    <div className="infra-box p-1 text-center">
-                      <p className="black f-400 m-0 f-14">Operational Dashboard</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <section className="cpblts-sec">
             <div className="container">
               <div className="row">
@@ -3754,4 +3491,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
