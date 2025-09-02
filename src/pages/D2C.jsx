@@ -1,5 +1,13 @@
-import React from 'react';
-import { fullDataset, Link, useNavigate, getImagePath, usePageInitialization } from '@/utils/sharedImports';
+import React, { useEffect } from 'react';
+import { 
+  fullDataset, 
+  Link, 
+  useNavigate, 
+  getImagePath, 
+  usePageInitialization,
+  CTASection,
+  ResourcesSection 
+} from '@/utils/sharedImports';
  
 
 const D2C = () => {

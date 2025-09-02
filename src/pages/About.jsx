@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { getImagePath } from '../utils/imageUtils';
+import { useLocation } from 'react-router-dom';
 import { initializeCounters, initializeSliders } from '@/utils/initializeAnimations';
 import { initializeSliders1 } from '@/utils/initScripts';
+import { 
+  Link, 
+  getImagePath, 
+  HeroSection,
+  BrandSection,
+  CTASection 
+} from '@/utils/sharedImports';
 
 
 
@@ -93,120 +99,15 @@ useEffect(() => {
         />
       </head>
       {/* Hero Section */}
-      <section
-        className="hero-section bg-img"
-        style={{
-          backgroundImage: `url(${getImagePath('simple-banner-background.png')})`
-        }}
-      >
-        <div className="container">
-          <div className="row align-items-center justify-content-center">
-            <div className="col-md-12 col-lg-8 text-center">
-              {/* <h6 className="f-14 f-500 black pb-3 m-0 wow fadeInUp">ABOUT</h6> */}
-              <h1 className="f-40 f-700 black pb-3 m-0 wow fadeInUp">
-                We Make Multilingual Communication{" "}
-                <span className="blue">Smart and Local</span>
-              </h1>
-              {/* <p class="f-400 pb-2 m-0 wow fadeInUp">We simplify content adaptation for every language and market, ensuring your message
-      connects authentically across cultures. With Devnagri, going global becomes seamless and impactful.</p> */}
-              <div className="d-flex align-items-center justify-content-center gap-3 wow fadeInUp">
-                {/* <button type="btn" class="devnagri-btn devnagri-white-btn mt-3 ">
-        <Link to="#" class="blue"> Sign up </Link>
-      </button> */}
-                <Link to="/careers" className="white">
-                  <button type="btn" className="devnagri-btn mt-3">
-                    {" "}
-                    Join US{" "}
-                  </button></Link>
-              </div>
-            </div>
-            {/* <div class="col-lg-6">
-    <div class="position-relative">
-      <img src={getImagePath(Online-world-cuate.png" alt="Product Demo" class="img-fluid">
-    </div>
-  </div> */}
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        title="We Make Multilingual Communication <span class='blue'>Smart and Local</span>"
+        backgroundImage="simple-banner-background.png"
+        ctaText="Join Us"
+        ctaLink="/careers"
+        centerAlign={true}
+      />
       {/*our major brand*/}
-      <section
-    className="brand-stats-section bg-img mb-5"
-    // style={{ backgroundImage: "none" }}
-  >
-    <div className="container">
-      <div className="">{/* product-brand-slider py-5, classes for white bg */}
-        <div className="brand-slider brand-slider-whitestrip">
-              <div className="brand-slider-wrapper">
-                {/* Add logo images as slides */}
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-meesho.png')}
-                    alt="Brand 1"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-icici-bank.png')}
-                    alt="Brand 2"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-idfc.png')}
-                    alt="Brand 3"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-yes-bank.png')}
-                    alt="Brand 4"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-sbi-mutual.png')}
-                    alt="Brand 5"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-tataia.png')}
-                    alt="Brand 6"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-nestle.png')}
-                    alt="Brand 7"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-my-gov.png')}
-                    alt="Brand 8"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="brand-item-slide">
-                  <img
-                    src={getImagePath('brand-nitiayog.png')}
-                    alt="Brand 9"
-                    loading="lazy"
-                  />
-                </div>
-                {/* <div class="brand-item-slide"><img src={getImagePath(brand-drdo.png" alt="Brand 5" loading="lazy" /></div> */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BrandSection className="mb-5" />
       {/*Our Story*/}
       <section
         className="our-story py-5 position-relative bg-img"
@@ -705,59 +606,13 @@ useEffect(() => {
         </div>
       </section>
       {/*get started section*/}
-      <section className="get-strated bg-img">
-        <div className="container">
-          <h2 className="text-center f-40 f-600 white pe-4 ps-4 pb-3 pt-3 wow fadeInUp">
-            If Your Message Crosses Borders, So Does Your Business
-          </h2>
-          {/* <p class="text-center f-400 pb-3 wow fadeInUp">Your users are diverse. Your chatbot should be, too.</p> */}
-          {/* Stats */}
-          <div className="row mt-5 text-center custom-stats-row">
-            <div className="col-6 col-md-4 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={60}
-                data-suffix="%"
-              >
-                0%
-              </div>
-              <p className="custom-label f-400 m-0">
-                Improvement in sales
-              </p>
-            </div>
-            <div className="col-6 col-md-4 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={5}
-                data-suffix="x"
-              >
-                0x
-              </div>
-              <p className="custom-label f-400 m-0">Faster Operations</p>
-            </div>
-            <div className="col-6 col-md-4 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={45}
-                data-suffix="%"
-              >
-                0%
-              </div>
-              <p className="custom-label f-400 m-0"> Reduction In Operational Costs</p>
-            </div>
-            {/* <div class="col-6 col-md-3 custom-stats-col wow fadeInUp">
-    <div class="custom-counter f-48 f-600 pb-3" data-target="75" data-suffix="%">0%</div>
-    <p class="custom-label f-400 m-0">Increase in CSAT</p>
-  </div> */}
-          </div>
-          <div className="text-center wow fadeInUp mt-5">
-            <Link to="https://account.devnagri.com/register" className="white"><button type="btn" className="devnagri-btn">
-              {" "}
-              Start Now{" "}
-            </button></Link>
-          </div>
-        </div>
-      </section>
+      <CTASection 
+        stats={[
+          { value: 60, suffix: "%", label: "Improvement in sales" },
+          { value: 5, suffix: "x", label: "Faster Operations", isDecimal: true },
+          { value: 45, suffix: "%", label: "Reduction In Operational Costs" }
+        ]}
+      />
 
 
     </>

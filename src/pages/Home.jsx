@@ -3,13 +3,20 @@ import { initializeWow, initializeSliders, initializeCounters, initializeFAQs } 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Navigation } from 'swiper/modules';
-import fullDataset from '../data/howWeHelpData.json';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './Home.css';
-import { getImagePath } from '../utils/imageUtils';
-import FAQAccordion from '@/components/FAQAccordion';
 import { initializeSliders1 } from '@/utils/initScripts';
+import { 
+  fullDataset, 
+  Link, 
+  useNavigate, 
+  getImagePath, 
+  FAQAccordion, 
+  HeroSection,
+  BrandSection,
+  CTASection,
+  ResourcesSection 
+} from '@/utils/sharedImports';
 
 
 const Home = () => {
@@ -446,155 +453,7 @@ const Home = () => {
         </div>
       </section>
       {/*our major brand*/}
-      <section className="brand-stats-section-home brand-stats-section bg-img">
-        <div className="container">
-          <div className="swiper brand-slider">
-            <div className="brand-slider-wrapper">
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-meesho.png')}
-                  alt="Brand 1"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-icici-bank.png')}
-                  alt="Brand 2"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-idfc.png')}
-                  alt="Brand 3"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-yes-bank.png')}
-                  alt="Brand 4"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-sbi-mutual.png')}
-                  alt="Brand 5"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-tataia.png')}
-                  alt="Brand 5"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-nestle.png')}
-                  alt="Brand 5"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-my-gov.png')}
-                  alt="Brand 5"
-                  loading="lazy"
-                />
-              </div>
-              <div className="brand-item-slide">
-                <img
-                  src={getImagePath('brand-nitiayog.png')}
-                  alt="Brand 5"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="stats-box mt-4">
-            <p className="m-0 f-28 f-600 black wow fadeInUp text-center">
-              Digitizing Multilingual{" "}
-              <span className="blue">Business Communications</span>
-            </p>
-            <div className="row py-3">
-              <div className="col-lg-4 col-md-6 col-12 mb-4 mb-md-0">
-                <div className="stat">
-                  <h3 className="f-34 f-600 black pb-2 wow fadeInUp">
-                    <span
-                      className="counter f-600 black"
-                      data-target={40}
-                      data-suffix="+"
-                    >
-                      0
-                    </span>
-                  </h3>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="icon-box wow fadeInUp">
-                      <img src={getImagePath('menu-icon/language.png')} />
-                    </div>
-                    <div className="counter-text">
-                      <p className="f-18 black f-500 m-0 wow fadeInUp">
-                        Languages
-                        <br />
-                        (Indian &amp; International)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-6 col-12 mb-4 mb-md-0 ">
-                <div className="stat">
-                  <h3 className="f-34 f-600 black pb-2 wow fadeInUp">
-                    <span
-                      className="counter f-600 black"
-                      data-target={200}
-                      data-suffix="+"
-                    >
-                      0
-                    </span>
-                  </h3>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="icon-box wow fadeInUp">
-                      <img src={getImagePath('menu-icon/customer.png')} />
-                    </div>
-                    <div className="counter-text">
-                      <p className="f-18 black f-500 m-0 wow fadeInUp">Customers</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-4 col-md-12 col-12">
-                <div className="">
-                  <h3 className="f-34 f-600 black pb-2 wow fadeInUp">
-                    <span
-                      className="counter f-600 black"
-                      data-target={500}
-                      data-format="short"
-                      data-suffix="M+"
-                    >
-                      0
-                    </span>
-                  </h3>
-                  <div className="d-flex align-items-center gap-3">
-                    <div className="icon-box wow fadeInUp">
-                      <img src={getImagePath('menu-icon/words.png')} />
-                    </div>
-                    <div className="counter-text">
-                      <p className="f-18 black f-500 m-0 wow fadeInUp">
-                        Words localized
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BrandSection showStats={true} className="brand-stats-section-home" />
       {/*--devnagri offer-*/}
       <section id="services_section" className="explore-our-product devnagri-offer">
         <div className="container wow fadeInUp">
@@ -3249,127 +3108,7 @@ const Home = () => {
         </div>
       </section>
       {/*Blog section*/}
-      <section className="blog-section">
-        <div className="container">
-          <h2 className="f-40 f-600 pb-2 black text-center wow fadeInUp">
-            Resource <span className="blue">Hub</span>
-          </h2>
-          <div className="d-none d-lg-block">
-            <div className="row pt-4">
-              {data.map((item, index) => (
-                <div className="col-md-4 fadeInUp" key={item.id}
-                  onClick={() => {
-                    // Check if this is a translation or transliteration resource
-                    if (item.translation === true || item.type === 'translation') {
-                      // Get language pairs from item or use defaults
-                      const fromLang = item.fromLanguage || 'english';
-                      const toLang = item.toLanguage || 'hindi';
-
-                      // Regular translation URL
-                      navigate(`/${fromLang}-to-${toLang}-translation`);
-                      return;
-                    }
-
-                    // Handle regular resources
-                    const link = (item.link || item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'))
-                      .replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
-                    navigate(`/${link}`, {
-                      state: {
-                        item: {
-                          ...item,
-                          link // Ensure the generated link is included in the state
-                        }
-                      }
-                    });
-                  }}
-                >
-                  <div className="resource-card wow fadeInUp">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="resource-img"
-                    />
-                    <div className="p-4">
-                      <span className="resource-tag tag-blog f-400">
-                        {item.type === "case-studies" ? "Case Studies" :
-                          item.type === "success-stories" ? "Success Stories" :
-                            item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                      </span>
-                      <h3 className="f-20 f-600 black mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="f-16 f-400 para-color mb-0">
-                        {item.description}
-                      </p>
-                      {/* <div className="resource-meta">
-                  <span className="f-14 f-400 para-color">
-                    {item.date} • {item.duration}
-                  </span>
-                </div> */}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mobile-blogs-section d-block d-lg-none">
-            <div className="resources-blogs-slider">
-              {data.map((item) => (
-                <div className="resource-card" key={item.id}
-                  onClick={() => {
-                    // Check if this is a translation or transliteration resource
-                    if (item.translation === true || item.type === 'translation') {
-                      // Get language pairs from item or use defaults
-                      const fromLang = item.fromLanguage || 'english';
-                      const toLang = item.toLanguage || 'hindi';
-
-                      // Regular translation URL
-                      navigate(`/${fromLang}-to${toLang}-translation`);
-                      return;
-                    }
-
-                    // Handle regular resources
-                    const link = (item.link || item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'))
-                      .replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
-                    navigate(`/${link}`, {
-                      state: {
-                        item: {
-                          ...item,
-                          link // Ensure the generated link is included in the state
-                        }
-                      }
-                    });
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="resource-img"
-                  />
-                  <div className="p-4">
-                    <span className="resource-tag tag-blog f-400">
-                      {item.type === "case-studies" ? "Case Studies" :
-                        item.type === "success-stories" ? "Success Stories" :
-                          item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                    </span>
-                    <h3 className="f-20 f-600 black mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="f-16 f-400 para-color mb-0">
-                      {item.description}
-                    </p>
-                    {/* <div className="resource-meta">
-                <span className="f-14 f-400 para-color">
-                  {item.date} • {item.duration}
-                </span>
-              </div> */}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ResourcesSection data={data} />
       {/*accordian section*/}
       <FAQAccordion page="home" />
       {/*Showcase section*/}
@@ -3423,66 +3162,7 @@ const Home = () => {
       </div>
     </section> */}
       {/*get started section*/}
-      <section className="get-strated bg-img">
-        <div className="container">
-          <h2 className="text-center f-40 f-600 white pe-4 ps-4 pb-3 pt-3 wow fadeInUp">
-            If Your Message Crosses Borders, So Does Your Business
-          </h2>
-          <div className="row mt-5 text-center custom-stats-row">
-            <div className="col-6 col-md-3 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={60}
-                data-suffix="%"
-              >
-                0%
-              </div>
-              <p className="custom-label f-400 m-0">Improvement in sales</p>
-            </div>
-            <div className="col-6 col-md-3 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={5}
-                data-decimal="true"
-                data-suffix="x"
-              >
-                0x
-              </div>
-              <p className="custom-label f-400 m-0">Faster Operations</p>
-            </div>
-            <div className="col-6 col-md-3 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={45}
-                data-suffix="%"
-              >
-                0%
-              </div>
-              <p className="custom-label f-400 m-0">
-                Reduction In Operational Costs
-              </p>
-            </div>
-            <div className="col-6 col-md-3 custom-stats-col wow fadeInUp">
-              <div
-                className="custom-counter f-48 f-600 pb-3"
-                data-target={75}
-                data-suffix="%"
-              >
-                0%
-              </div>
-              <p className="custom-label f-400 m-0">Increase in CSAT</p>
-            </div>
-          </div>
-          <div className="text-center wow fadeInUp mt-5">
-            <Link to="https://account.devnagri.com/register" className="white"><button type="btn" className="devnagri-btn">
-
-              {" "}
-              Start Now
-
-            </button></Link>
-          </div>
-        </div>
-      </section>
+      <CTASection />
 
     </>
 

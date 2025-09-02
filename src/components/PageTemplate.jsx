@@ -1,14 +1,33 @@
 
 import React from 'react';
-import { usePageInitialization } from '@/utils/sharedImports';
+import { usePageInitialization } from '@/hooks/usePageInitialization';
 
-const PageTemplate = ({ children, className = "" }) => {
+const PageTemplate = ({ 
+  children, 
+  className = "",
+  seoTitle,
+  seoDescription,
+  seoKeywords
+}) => {
   usePageInitialization();
   
   return (
-    <div className={`page-container ${className}`}>
-      {children}
-    </div>
+    <>
+      {(seoTitle || seoDescription || seoKeywords) && (
+        <head>
+          {seoTitle && <title>{seoTitle}</title>}
+          {seoDescription && (
+            <meta name="description" content={seoDescription} />
+          )}
+          {seoKeywords && (
+            <meta name="keywords" content={seoKeywords} />
+          )}
+        </head>
+      )}
+      <div className={`page-container ${className}`}>
+        {children}
+      </div>
+    </>
   );
 };
 

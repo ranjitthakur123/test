@@ -1,13 +1,12 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { allDynamicRoutes } from '@/utils/routeConfig';
 import { reinitializeSliders as reinitializePageSliders } from '../../utils/initScripts';
 
 export function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Import dynamic routes configuration
-    import { allDynamicRoutes } from '@/utils/routeConfig';
     const routesNeedingReload = allDynamicRoutes;
 
     // Check if current pathname starts with any of the routes needing reload
@@ -24,7 +23,7 @@ export function ScrollToTop() {
     } else {
       // Scroll to top
       window.scrollTo(0, 0);
-      
+
       // Reinitialize sliders
       reinitializePageSliders();
 
@@ -34,4 +33,4 @@ export function ScrollToTop() {
   }, [pathname]);
 
   return null;
-}; 
+};
